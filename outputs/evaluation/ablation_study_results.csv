@@ -1,0 +1,7 @@
+Experiment,Num_Features,Accuracy,Precision,Recall,F1_Score
+Exp 1: Accident Only,2,0.9314,0.9301,0.9314,0.9305
+Exp 2: Accident + OSM,11,0.928,0.9273,0.928,0.9276
+Exp 3: Accident + OSM + Damage,12,0.9478,0.9487,0.9478,0.9481
+Exp 4: Accident + OSM + Damage + Traffic,14,0.9962,0.9962,0.9962,0.9962
+Exp 5: Accident + OSM + Damage + Traffic + Weather,17,0.996,0.996,0.996,0.996
+Exp 6: All Features + Travel Speed,18,0.9958,0.9958,0.9958,0.9958

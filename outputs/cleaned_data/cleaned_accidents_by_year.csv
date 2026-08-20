@@ -1,0 +1,319 @@
+Zone,Sub_Division,Station,Year,Fatal_Accidents,Killed,Non_Fatal_Accidents,Injured,Total_Accidents
+East,East,Banasawadi,2018,21,21.0,108,133.0,129
+East,East,Halasooru,2018,12,12.0,69,67.0,81
+East,East,Indiranagar,2018,11,11.0,63,60.0,74
+East,East,K G Halli,2018,4,4.0,19,24.0,23
+East,East,Pulikeshinagar,2018,5,5.0,16,13.0,21
+East,East,Shivajinagar,2018,2,2.0,23,23.0,25
+East,Whitefield,Airport,2018,24,26.0,85,77.0,109
+East,Whitefield,K R Puram,2018,42,43.0,241,221.0,283
+East,Whitefield,Whitefield,2018,24,24.0,150,164.0,174
+North,North,Jalahalli,2018,21,21.0,153,158.0,174
+North,North,Malleshwaram,2018,5,5.0,96,85.0,101
+North,North,Peenya,2018,23,23.0,204,213.0,227
+North,North,Rajajinagar,2018,14,14.0,57,66.0,71
+North,North,Yashawanthapura,2018,20,20.0,131,130.0,151
+North,North East,Chikkajala,2018,38,39.0,114,151.0,152
+North,North East,Hebbala,2018,32,33.0,106,113.0,138
+North,North East,Int. Aiport,2018,39,45.0,122,189.0,161
+North,North East,R T Nagar,2018,7,8.0,87,81.0,94
+North,North East,Yalahanka,2018,46,48.0,175,189.0,221
+South,HSR Layout,Electronic City,2018,27,29.0,133,115.0,160
+South,HSR Layout,HSR Layout,2018,17,17.0,83,98.0,100
+South,South,Banashankari,2018,8,8.0,92,83.0,100
+South,South,Basavanagudi,2018,3,3.0,67,60.0,70
+South,South,Chamarajpet,2018,4,4.0,38,38.0,42
+South,South,Jayanagar,2018,9,9.0,72,71.0,81
+South,South,K S Layout,2018,33,35.0,157,141.0,190
+South,South East,Adugodi,2018,3,3.0,47,53.0,50
+South,South East,Hulimavu,2018,30,33.0,106,118.0,136
+South,South East,Madivala,2018,18,18.0,64,69.0,82
+South,South East,Micolayout,2018,6,6.0,58,58.0,64
+West,Central,Ashokanagar,2018,4,4.0,51,55.0,55
+West,Central,Cubbon Park,2018,2,2.0,52,53.0,54
+West,Central,H.Grounds,2018,2,2.0,58,51.0,60
+West,Central,S.S.Nagar,2018,8,8.0,78,74.0,86
+West,Central,U.Gate,2018,4,4.0,43,40.0,47
+West,Central,W.Garden,2018,6,6.0,46,44.0,52
+West,Vijayanagar,Kamakshipalya,2018,22,22.0,187,202.0,209
+West,Vijayanagar,Magadi Road,2018,1,1.0,34,31.0,35
+West,Vijayanagar,Vijayanagar,2018,7,7.0,124,110.0,131
+West,West,Bytarayanapura,2018,17,18.0,100,104.0,117
+West,West,Chickpet,2018,10,10.0,44,48.0,54
+West,West,City Market,2018,2,2.0,18,17.0,20
+West,West,Kengeri,2018,24,25.0,137,198.0,161
+West,West,Upparpet,2018,6,6.0,40,41.0,46
+East,East,Banasawadi,2019,19,19.0,110,106.0,129
+East,East,Halasooru,2019,14,15.0,88,84.0,102
+East,East,Indiranagar,2019,14,14.0,94,92.0,108
+East,East,K G Halli,2019,7,7.0,22,21.0,29
+East,East,Pulikeshinagar,2019,10,10.0,20,17.0,30
+East,East,Shivajinagar,2019,7,7.0,27,22.0,34
+East,Whitefield,Airport,2019,16,16.0,68,59.0,84
+East,Whitefield,K R Puram,2019,49,50.0,220,230.0,269
+East,Whitefield,Whitefield,2019,48,48.0,144,167.0,192
+North,North,Jalahalli,2019,21,22.0,86,104.0,107
+North,North,Malleshwaram,2019,7,7.0,83,111.0,90
+North,North,Peenya,2019,33,34.0,183,185.0,216
+North,North,Rajajinagar,2019,10,10.0,45,51.0,55
+North,North,Yashawanthapura,2019,17,19.0,115,113.0,132
+North,North East,Chikkajala,2019,41,44.0,154,191.0,195
+North,North East,Hebbala,2019,32,33.0,109,118.0,141
+North,North East,Int. Aiport,2019,33,37.0,127,197.0,160
+North,North East,R T Nagar,2019,11,12.0,63,56.0,74
+North,North East,Yalahanka,2019,44,44.0,216,287.0,260
+South,HSR Layout,Electronic City,2019,32,33.0,138,122.0,170
+South,HSR Layout,HSR Layout,2019,25,25.0,81,109.0,106
+South,South,Banashankari,2019,7,7.0,96,98.0,103
+South,South,Basavanagudi,2019,6,6.0,54,56.0,60
+South,South,Chamarajpet,2019,7,7.0,34,37.0,41
+South,South,Jayanagar,2019,16,16.0,61,63.0,77
+South,South,K S Layout,2019,26,28.0,166,168.0,192
+South,South East,Adugodi,2019,6,6.0,56,55.0,62
+South,South East,Hulimavu,2019,15,15.0,108,104.0,123
+South,South East,Madivala,2019,17,18.0,67,65.0,84
+South,South East,Micolayout,2019,12,12.0,72,73.0,84
+West,Central,Ashokanagar,2019,6,6.0,58,55.0,64
+West,Central,Cubbon Park,2019,5,5.0,46,56.0,51
+West,Central,H.Grounds,2019,5,5.0,48,54.0,53
+West,Central,S.S.Nagar,2019,6,6.0,52,54.0,58
+West,Central,U.Gate,2019,2,2.0,51,49.0,53
+West,Central,W.Garden,2019,11,11.0,63,60.0,74
+West,Vijayanagar,Kamakshipalya,2019,25,27.0,194,207.0,219
+West,Vijayanagar,Magadi Road,2019,6,6.0,41,49.0,47
+West,Vijayanagar,Vijayanagar,2019,9,9.0,113,111.0,122
+West,West,Bytarayanapura,2019,18,18.0,108,101.0,126
+West,West,Chickpet,2019,12,12.0,58,62.0,70
+West,West,City Market,2019,3,3.0,17,16.0,20
+West,West,Kengeri,2019,26,27.0,145,178.0,171
+West,West,Upparpet,2019,10,10.0,37,37.0,47
+East,East,Banasawadi,2020,15,16.0,76,68.0,91
+East,East,Halasooru,2020,14,14.0,37,41.0,51
+East,East,Indiranagar,2020,9,9.0,40,45.0,49
+East,East,K G Halli,2020,3,3.0,17,22.0,20
+East,East,Pulikeshinagar,2020,8,8.0,11,9.0,19
+East,East,Shivajinagar,2020,1,1.0,14,10.0,15
+East,Whitefield,Airport,2020,19,19.0,45,40.0,64
+East,Whitefield,K R Puram,2020,48,50.0,136,129.0,184
+East,Whitefield,Whitefield,2020,21,22.0,92,99.0,113
+North,North,Jalahalli,2020,19,20.0,53,63.0,72
+North,North,Malleshwaram,2020,8,8.0,37,34.0,45
+North,North,Peenya,2020,16,16.0,110,116.0,126
+North,North,Rajajinagar,2020,12,12.0,36,44.0,48
+North,North,Yashawanthapura,2020,20,20.0,85,84.0,105
+North,North East,Chikkajala,2020,30,31.0,152,172.0,182
+North,North East,Hebbala,2020,28,28.0,81,99.0,109
+North,North East,Int. Aiport,2020,25,27.0,88,133.0,113
+North,North East,R T Nagar,2020,9,10.0,50,41.0,59
+North,North East,Yalahanka,2020,40,45.0,155,169.0,195
+South,HSR Layout,Electronic City,2020,31,31.0,124,109.0,155
+South,HSR Layout,HSR Layout,2020,15,16.0,60,86.0,75
+South,South,Banashankari,2020,12,12.0,55,54.0,67
+South,South,Basavanagudi,2020,6,6.0,46,42.0,52
+South,South,Chamarajpet,2020,6,6.0,23,25.0,29
+South,South,Jayanagar,2020,15,15.0,39,46.0,54
+South,South,K S Layout,2020,37,39.0,122,130.0,159
+South,South East,Adugodi,2020,2,2.0,27,30.0,29
+South,South East,Hulimavu,2020,16,16.0,64,74.0,80
+South,South East,Madivala,2020,11,11.0,34,35.0,45
+South,South East,Micolayout,2020,10,10.0,51,42.0,61
+West,Central,Ashokanagar,2020,5,7.0,35,37.0,40
+West,Central,Cubbon Park,2020,2,2.0,24,28.0,26
+West,Central,H.Grounds,2020,6,6.0,39,34.0,45
+West,Central,S.S.Nagar,2020,8,8.0,51,61.0,59
+West,Central,U.Gate,2020,4,5.0,29,27.0,33
+West,Central,W.Garden,2020,3,3.0,34,29.0,37
+West,Vijayanagar,Kamakshipalya,2020,24,26.0,135,154.0,159
+West,Vijayanagar,Magadi Road,2020,4,4.0,21,18.0,25
+West,Vijayanagar,Vijayanagar,2020,8,8.0,84,76.0,92
+West,West,Bytarayanapura,2020,19,20.0,87,68.0,106
+West,West,Chickpet,2020,6,6.0,30,28.0,36
+West,West,City Market,2020,3,3.0,6,6.0,9
+West,West,Kengeri,2020,22,24.0,64,88.0,86
+West,West,Upparpet,2020,2,2.0,15,15.0,17
+East,East,Banasawadi,2021,20,21.0,79,81.0,99
+East,East,Halasooru,2021,19,19.0,28,35.0,47
+East,East,Indiranagar,2021,5,5.0,27,28.0,32
+East,East,K G Halli,2021,5,5.0,17,18.0,22
+East,East,Pulikeshinagar,2021,10,10.0,9,7.0,19
+East,East,Shivajinagar,2021,3,3.0,8,5.0,11
+East,Whitefield,Airport,2021,34,35.0,109,113.0,143
+East,Whitefield,K R Puram,2021,17,18.0,47,48.0,64
+East,Whitefield,Whitefield,2021,24,24.0,67,83.0,91
+North,North,Jalahalli,2021,22,23.0,68,80.0,90
+North,North,Malleshwaram,2021,6,6.0,30,32.0,36
+North,North,Peenya,2021,22,22.0,103,113.0,125
+North,North,Rajajinagar,2021,14,14.0,52,58.0,66
+North,North,Yashawanthapura,2021,13,14.0,66,59.0,79
+North,North East,Chikkajala,2021,32,40.0,157,191.0,189
+North,North East,Hebbala,2021,18,18.0,97,99.0,115
+North,North East,Int. Aiport,2021,23,24.0,145,209.0,168
+North,North East,R T Nagar,2021,10,10.0,55,50.0,65
+North,North East,Yalahanka,2021,48,52.0,124,151.0,172
+South,HSR Layout,Electronic City,2021,27,30.0,102,116.0,129
+South,HSR Layout,HSR Layout,2021,15,15.0,41,49.0,56
+South,South,Banashankari,2021,13,13.0,57,58.0,70
+South,South,Basavanagudi,2021,5,5.0,43,31.0,48
+South,South,Chamarajpet,2021,6,6.0,22,24.0,28
+South,South,Jayanagar,2021,10,10.0,50,55.0,60
+South,South,K S Layout,2021,45,48.0,95,129.0,140
+South,South East,Adugodi,2021,2,8.0,17,20.0,19
+South,South East,Hulimavu,2021,6,6.0,68,71.0,74
+South,South East,Madivala,2021,8,8.0,46,51.0,54
+South,South East,Micolayout,2021,9,9.0,61,60.0,70
+West,Central,Ashokanagar,2021,5,5.0,37,48.0,42
+West,Central,Cubbon Park,2021,4,4.0,34,35.0,38
+West,Central,H.Grounds,2021,2,2.0,36,38.0,38
+West,Central,S.S.Nagar,2021,4,4.0,60,51.0,64
+West,Central,U.Gate,2021,3,3.0,22,26.0,25
+West,Central,W.Garden,2021,9,9.0,49,55.0,58
+West,Vijayanagar,Kamakshipalya,2021,33,34.0,124,117.0,157
+West,Vijayanagar,Magadi Road,2021,4,4.0,24,23.0,28
+West,Vijayanagar,Vijayanagar,2021,8,8.0,86,96.0,94
+West,West,Bytarayanapura,2021,21,21.0,100,90.0,121
+West,West,Chickpet,2021,6,6.0,24,21.0,30
+West,West,City Market,2021,2,2.0,5,4.0,7
+West,West,Kengeri,2021,22,24.0,85,82.0,107
+West,West,Upparpet,2021,4,4.0,17,18.0,21
+East,East,Banasawadi,2022,22,22.0,94,118.0,116
+East,East,Halasooru,2022,13,14.0,63,80.0,76
+East,East,Indiranagar,2022,13,13.0,35,40.0,48
+East,East,K G Halli,2022,7,7.0,23,24.0,30
+East,East,Pulikeshinagar,2022,4,4.0,5,5.0,9
+East,East,Shivajinagar,2022,4,4.0,21,25.0,25
+East,Whitefield,Airport,2022,18,18.0,65,65.0,83
+East,Whitefield,K R Puram,2022,39,39.0,166,191.0,205
+East,Whitefield,Whitefield,2022,39,39.0,127,127.0,166
+North,North,Jalahalli,2022,15,16.0,65,75.0,80
+North,North,Malleshwaram,2022,6,6.0,50,45.0,56
+North,North,Peenya,2022,32,33.0,146,135.0,178
+North,North,Rajajinagar,2022,25,27.0,76,77.0,101
+North,North,Yashawanthapura,2022,13,13.0,61,55.0,74
+North,North East,Chikkajala,2022,42,42.0,132,144.0,174
+North,North East,Hebbala,2022,29,30.0,72,88.0,101
+North,North East,Int. Aiport,2022,30,31.0,124,164.0,154
+North,North East,R T Nagar,2022,11,11.0,56,50.0,67
+North,North East,Yalahanka,2022,53,56.0,151,154.0,204
+South,HSR Layout,Electronic City,2022,26,26.0,113,128.0,139
+South,HSR Layout,HSR Layout,2022,14,14.0,50,56.0,64
+South,South,Banashankari,2022,16,17.0,51,55.0,67
+South,South,Basavanagudi,2022,7,7.0,78,59.0,85
+South,South,Chamarajpet,2022,7,7.0,44,46.0,51
+South,South,Jayanagar,2022,8,8.0,85,89.0,93
+South,South,K S Layout,2022,34,36.0,141,159.0,175
+South,South East,Adugodi,2022,6,6.0,36,41.0,42
+South,South East,Hulimavu,2022,10,11.0,103,93.0,113
+South,South East,Madivala,2022,13,13.0,32,30.0,45
+South,South East,Micolayout,2022,11,11.0,42,44.0,53
+West,Central,Ashokanagar,2022,4,4.0,31,29.0,35
+West,Central,Cubbon Park,2022,4,5.0,33,31.0,37
+West,Central,H.Grounds,2022,4,4.0,45,33.0,49
+West,Central,S.S.Nagar,2022,13,13.0,55,50.0,68
+West,Central,U.Gate,2022,5,5.0,30,27.0,35
+West,Central,W.Garden,2022,6,7.0,48,51.0,54
+West,Vijayanagar,Kamakshipalya,2022,49,50.0,151,146.0,200
+West,Vijayanagar,Magadi Road,2022,4,4.0,16,17.0,20
+West,Vijayanagar,Vijayanagar,2022,9,9.0,75,83.0,84
+West,West,Bytarayanapura,2022,39,40.0,122,110.0,161
+West,West,Chickpet,2022,7,7.0,33,32.0,40
+West,West,City Market,2022,3,3.0,15,14.0,18
+West,West,Kengeri,2022,34,36.0,87,108.0,121
+West,West,Upparpet,2022,3,3.0,24,25.0,27
+East,East,Banasawadi,2023,14,15.0,77,82.0,91
+East,East,Halasooru,2023,11,11.0,56,48.0,67
+East,East,Indiranagar,2023,12,12.0,73,62.0,85
+East,East,K G Halli,2023,6,6.0,34,39.0,40
+East,East,Pulikeshinagar,2023,4,4.0,23,24.0,27
+East,East,Shivajinagar,2023,6,6.0,21,19.0,27
+East,Whitefield,Airport,2023,17,17.0,80,80.0,97
+East,Whitefield,K R Puram,2023,41,42.0,213,217.0,254
+East,Whitefield,Mahadevapura,2023,11,12.0,82,72.0,93
+East,Whitefield,Whitefield,2023,43,44.0,180,163.0,223
+North,North,Jalahalli,2023,28,29.0,74,84.0,102
+North,North,Malleshwaram,2023,18,18.0,81,88.0,99
+North,North,Peenya,2023,32,32.0,160,191.0,192
+North,North,Rajajinagar,2023,16,17.0,86,82.0,102
+North,North,Yashawanthapura,2023,21,22.0,85,82.0,106
+North,North East,Chikkajala,2023,36,39.0,101,129.0,137
+North,North East,Hebbala,2023,24,24.0,120,118.0,144
+North,North East,Hennuru,2023,23,24.0,80,84.0,103
+North,North East,Int. Aiport,2023,59,61.0,173,215.0,232
+North,North East,R T Nagar,2023,8,8.0,74,63.0,82
+North,North East,Yalahanka,2023,58,63.0,178,222.0,236
+South,HSR Layout,Bellanduru,2023,9,9.0,34,34.0,43
+South,HSR Layout,Electronic City,2023,38,39.0,158,171.0,196
+South,HSR Layout,HSR Layout,2023,16,17.0,40,56.0,56
+South,South,Banashankari,2023,15,15.0,75,66.0,90
+South,South,Basavanagudi,2023,3,3.0,99,98.0,102
+South,South,Chamarajpet,2023,4,4.0,25,22.0,29
+South,South,Jayanagar,2023,13,13.0,77,77.0,90
+South,South,K S Layout,2023,18,18.0,136,137.0,154
+South,South,Thalagattapura,2023,22,26.0,67,69.0,89
+South,South East,Adugodi,2023,10,10.0,53,67.0,63
+South,South East,Hulimavu,2023,16,16.0,92,117.0,108
+South,South East,Madivala,2023,14,14.0,59,53.0,73
+South,South East,Micolayout,2023,14,14.0,74,71.0,88
+West,Central,Ashokanagar,2023,6,6.0,32,30.0,38
+West,Central,Cubbon Park,2023,2,2.0,54,41.0,56
+West,Central,H.Grounds,2023,6,6.0,50,47.0,56
+West,Central,S.S.Nagar,2023,8,8.0,39,33.0,47
+West,Central,U.Gate,2023,7,8.0,47,44.0,54
+West,Central,W.Garden,2023,6,6.0,59,45.0,65
+West,Vijayanagar,Kamakshipalya,2023,40,41.0,201,202.0,241
+West,Vijayanagar,Magadi Road,2023,7,7.0,43,42.0,50
+West,Vijayanagar,Vijayanagar,2023,16,16.0,63,66.0,79
+West,West,Bytarayanapura,2023,19,19.0,163,125.0,182
+West,West,Chickpet,2023,9,10.0,37,31.0,46
+West,West,City Market,2023,9,9.0,23,28.0,32
+West,West,Kengeri,2023,58,59.0,221,237.0,279
+West,West,Upparpet,2023,9,9.0,20,18.0,29
+East,East,Banasawadi,2024,6,0.0,59,0.0,65
+East,East,Halasooru,2024,12,0.0,49,0.0,61
+East,East,Indiranagar,2024,21,0.0,98,0.0,119
+East,East,K G Halli,2024,7,0.0,47,0.0,54
+East,East,Pulikeshinagar,2024,4,0.0,14,0.0,18
+East,East,Shivajinagar,2024,4,0.0,30,0.0,34
+East,Whitefield,Airport,2024,22,0.0,74,0.0,96
+East,Whitefield,K R Puram,2024,34,0.0,207,0.0,241
+East,Whitefield,Mahadevapura,2024,17,0.0,89,0.0,106
+East,Whitefield,Whitefield,2024,44,0.0,145,0.0,189
+North,North,Chikkabanavara,2024,16,0.0,74,0.0,90
+North,North,Jalahalli,2024,15,0.0,54,0.0,69
+North,North,Malleshwaram,2024,10,0.0,56,0.0,66
+North,North,Peenya,2024,26,0.0,111,0.0,137
+North,North,Rajajinagar,2024,11,0.0,88,0.0,99
+North,North,Yashawanthapura,2024,25,0.0,73,0.0,98
+North,North East,Chikkajala,2024,32,0.0,108,0.0,140
+North,North East,Hebbala,2024,29,0.0,148,0.0,177
+North,North East,Hennuru,2024,32,0.0,95,0.0,127
+North,North East,Int. Aiport,2024,60,0.0,180,0.0,240
+North,North East,R T Nagar,2024,7,0.0,54,0.0,61
+North,North East,Yalahanka,2024,56,0.0,186,0.0,242
+South,HSR Layout,Bellanduru,2024,14,0.0,43,0.0,57
+South,HSR Layout,Electronic City,2024,42,0.0,136,0.0,178
+South,HSR Layout,HSR Layout,2024,12,0.0,49,0.0,61
+South,South,Banashankari,2024,11,0.0,68,0.0,79
+South,South,Basavanagudi,2024,8,0.0,82,0.0,90
+South,South,Chamarajpet,2024,0,0.0,15,0.0,15
+South,South,Jayanagar,2024,12,0.0,73,0.0,85
+South,South,K S Layout,2024,20,0.0,90,0.0,110
+South,South,Thalagattapura,2024,20,0.0,104,0.0,124
+South,South East,Adugodi,2024,5,0.0,45,0.0,50
+South,South East,Hulimavu,2024,10,0.0,61,0.0,71
+South,South East,Madivala,2024,21,0.0,81,0.0,102
+South,South East,Micolayout,2024,23,0.0,73,0.0,96
+West,Central,Ashokanagar,2024,4,0.0,31,0.0,35
+West,Central,Cubbon Park,2024,6,0.0,42,0.0,48
+West,Central,H.Grounds,2024,7,0.0,48,0.0,55
+West,Central,S.S.Nagar,2024,5,0.0,48,0.0,53
+West,Central,U.Gate,2024,6,0.0,62,0.0,68
+West,Central,W.Garden,2024,6,0.0,53,0.0,59
+West,Vijayanagar,Kamakshipalya,2024,18,0.0,126,0.0,144
+West,Vijayanagar,Magadi Road,2024,4,0.0,36,0.0,40
+West,Vijayanagar,Vijayanagar,2024,6,0.0,52,0.0,58
+West,West,Bytarayanapura,2024,19,0.0,127,0.0,146
+West,West,Chickpet,2024,8,0.0,33,0.0,41
+West,West,City Market,2024,11,0.0,31,0.0,42
+West,West,Jnanabharathi,2024,22,0.0,119,0.0,141
+West,West,Kengeri,2024,31,0.0,146,0.0,177
+West,West,Upparpet,2024,11,0.0,35,0.0,46

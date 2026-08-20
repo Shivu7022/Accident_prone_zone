@@ -1,0 +1,50 @@
+[
+  {
+    "Experiment":"Exp 1: Accident Only",
+    "Num_Features":2,
+    "Accuracy":0.9314,
+    "Precision":0.9301,
+    "Recall":0.9314,
+    "F1_Score":0.9305
+  },
+  {
+    "Experiment":"Exp 2: Accident + OSM",
+    "Num_Features":11,
+    "Accuracy":0.928,
+    "Precision":0.9273,
+    "Recall":0.928,
+    "F1_Score":0.9276
+  },
+  {
+    "Experiment":"Exp 3: Accident + OSM + Damage",
+    "Num_Features":12,
+    "Accuracy":0.9478,
+    "Precision":0.9487,
+    "Recall":0.9478,
+    "F1_Score":0.9481
+  },
+  {
+    "Experiment":"Exp 4: Accident + OSM + Damage + Traffic",
+    "Num_Features":14,
+    "Accuracy":0.9962,
+    "Precision":0.9962,
+    "Recall":0.9962,
+    "F1_Score":0.9962
+  },
+  {
+    "Experiment":"Exp 5: Accident + OSM + Damage + Traffic + Weather",
+    "Num_Features":17,
+    "Accuracy":0.996,
+    "Precision":0.996,
+    "Recall":0.996,
+    "F1_Score":0.996
+  },
+  {
+    "Experiment":"Exp 6: All Features + Travel Speed",
+    "Num_Features":18,
+    "Accuracy":0.9958,
+    "Precision":0.9958,
+    "Recall":0.9958,
+    "F1_Score":0.9958
+  }
+]
