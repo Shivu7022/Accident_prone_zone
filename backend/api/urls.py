@@ -22,4 +22,9 @@ urlpatterns = [
     
     path('weather', views.get_weather_endpoint, name='weather'),
     path('weather/', views.get_weather_endpoint, name='weather_slash'),
+    
+    path('location/search', views.search_location, name='search_location'),
+    path('location/search/', views.search_location, name='search_location_slash'),
+    path('location/reverse', views.reverse_geocode_endpoint, name='reverse_geocode'),
+    path('location/reverse/', views.reverse_geocode_endpoint, name='reverse_geocode_slash'),
 ]

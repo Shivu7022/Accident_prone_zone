@@ -11,6 +11,7 @@ export default function App() {
   const [longitude, setLongitude] = useState(77.5963);
   const [speed, setSpeed] = useState(70);
   const [activePreset, setActivePreset] = useState('Yelahanka');
+  const [address, setAddress] = useState('Gandhinagar, Yelahanka, Bengaluru');
 
   const [isConnected, setIsConnected] = useState(false);
   const [hotspots, setHotspots] = useState([]);
@@ -48,7 +49,30 @@ export default function App() {
     }
   };
 
+  const fetchAddress = async (lat, lon) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/location/reverse/?lat=${lat}&lon=${lon}`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.address) {
+          setAddress(data.address);
+          return data.address;
+        }
+      }
+    } catch {
+      // Fallback
+    }
+    return `${lat.toFixed(4)}°N, ${lon.toFixed(4)}°E`;
+  };
+
   const assessRisk = async (lat = latitude, lon = longitude, spd = speed) => {
+    let currentAddr = address;
+    try {
+      currentAddr = await fetchAddress(lat, lon);
+    } catch {
+      // Ignore
+    }
+
     try {
       const res = await fetch(`${API_BASE_URL}/api/risk/predict/`, {
         method: 'POST',
@@ -70,61 +94,66 @@ export default function App() {
       setIsConnected(false);
     }
 
-    // Client Fallback Evaluation Simulation
-    const fallback = simulateRiskAssessment(lat, lon, spd);
+    // Fallback Client Simulation
+    const fallback = simulateRiskAssessment(lat, lon, spd, currentAddr);
     setResult(fallback);
   };
 
-  const simulateRiskAssessment = (lat, lon, spd) => {
-    let score = 25.0;
-    let level = 'LOW';
+  const simulateRiskAssessment = (lat, lon, spd, addr) => {
+    let score = 30.0;
+    let level = 'LOW RISK';
     let rec = 'Optimal driving conditions.';
-    let factors = [];
+    let hazards = [];
 
     const dYelahanka = Math.hypot(lat - 13.1007, lon - 77.5963);
     if (dYelahanka < 0.05) {
       score += 35.0;
-      factors.push('High Historical Area Accident Risk (1,530 Accidents)');
+      hazards.push('High-risk historical accident corridor (1,530+ accidents recorded nearby)');
     }
 
     if (spd > 60) {
       score += 20.0;
-      factors.push(`Excessive Travel Speed (${spd} km/h vs 40 km/h limit)`);
+      hazards.push(`Driving ${spd} km/h over recommended 40 km/h safe limit`);
     }
 
     score += 15.0;
-    factors.push('Severe Surface Road Damage Detected (65.0/100)');
+    hazards.push('Moderate to severe surface road damage & potholes detected');
 
     score = Math.min(100.0, Math.max(0.0, score));
 
-    if (score >= 81) level = 'VERY HIGH';
-    else if (score >= 61) level = 'HIGH';
-    else if (score >= 31) level = 'MODERATE';
-    else level = 'LOW';
+    if (score >= 81) level = 'SEVERE HAZARD';
+    else if (score >= 61) level = 'HIGH RISK';
+    else if (score >= 31) level = 'MODERATE RISK';
+    else level = 'LOW RISK';
 
-    if (level === 'HIGH' || level === 'VERY HIGH') {
+    if (level === 'HIGH RISK' || level === 'SEVERE HAZARD') {
       rec = 'Exercise extra caution. Moderate to high congestion and road damage detected.';
     }
 
     return {
       location: {
-        nearest_road_id: 'BLR_OSM_0206990',
-        nearest_road_name: 'OSM Segment (residential)',
-        distance_to_segment_km: 0.012
+        latitude: lat,
+        longitude: lon,
+        address: addr || `${lat.toFixed(4)}°N, ${lon.toFixed(4)}°E`,
+        road_type: 'Primary Road',
+        distance_meters: 12
       },
       assessment: {
         risk_score: score,
         risk_level: level,
         travel_speed_kmh: spd,
+        recommended_safe_speed: 40,
         recommendation: rec
       },
-      contributing_factors: factors,
-      feature_breakdown: {
-        traffic_condition: '35 km/h',
-        temperature_celsius: 23.0,
-        road_complexity_score: 3.75,
-        road_damage_score: 65.0
-      }
+      road_condition: {
+        surface_status: 'Moderate Potholes & Cracks',
+        surface_damage_level: 65.0,
+        junction_complexity: 'Moderate',
+        traffic_flow: '35 km/h flow',
+        illumination: 'Good Night Lighting',
+        weather: 'Clear (23.0°C)'
+      },
+      safety_hazards: hazards
     };
   };
 
@@ -135,6 +164,10 @@ export default function App() {
     setLongitude(fixedLon);
     setActivePreset('');
     assessRisk(fixedLat, fixedLon, speed);
+  };
+
+  const handleLocationSelect = (lat, lon) => {
+    assessRisk(lat, lon, speed);
   };
 
   return (
@@ -153,6 +186,7 @@ export default function App() {
           roadInfo={result?.location}
           activePreset={activePreset}
           setActivePreset={setActivePreset}
+          onLocationSelect={handleLocationSelect}
         />
 
         <MapView
@@ -160,6 +194,7 @@ export default function App() {
           longitude={longitude}
           hotspots={hotspots}
           onMapClick={handleMapClick}
+          address={result?.location?.address || address}
         />
 
         <ResultsPanel result={result} />
@@ -167,3 +202,4 @@ export default function App() {
     </div>
   );
 }
+

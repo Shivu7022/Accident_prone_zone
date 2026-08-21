@@ -1,5 +1,6 @@
 import os
 import sys
+import json
 import pandas as pd
 from pathlib import Path
 from rest_framework.decorators import api_view
@@ -113,3 +114,50 @@ def get_weather_endpoint(request):
     lat = float(request.GET.get('lat', 12.9716))
     lon = float(request.GET.get('lon', 77.5946))
     return Response(get_weather(lat, lon))
+
+@api_view(['GET'])
+def search_location(request):
+    """
+    Geocode search query to latitude and longitude using Nominatim.
+    """
+    query = request.GET.get('q', '').strip()
+    if not query:
+        return Response([])
+
+    import urllib.request
+    import urllib.parse
+    
+    # Append Bengaluru context if not explicitly contained
+    search_q = query if 'bengaluru' in query.lower() or 'bangalore' in query.lower() else f"{query}, Bengaluru"
+    url = f"https://nominatim.openstreetmap.org/search?format=json&q={urllib.parse.quote(search_q)}&limit=5"
+    
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'BengaluruRoadSafetyAI/2.0'})
+        with urllib.request.urlopen(req, timeout=3.0) as resp:
+            results = json.loads(resp.read().decode('utf-8'))
+            formatted = [
+                {
+                    "display_name": item.get('display_name'),
+                    "lat": float(item.get('lat')),
+                    "lon": float(item.get('lon'))
+                }
+                for item in results
+            ]
+            return Response(formatted)
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+@api_view(['GET'])
+def reverse_geocode_endpoint(request):
+    """
+    Reverse geocode latitude and longitude to real-world address.
+    """
+    try:
+        lat = float(request.GET.get('lat', 12.9716))
+        lon = float(request.GET.get('lon', 77.5946))
+        from src.inference import reverse_geocode
+        address = reverse_geocode(lat, lon)
+        return Response({"address": address or f"{lat:.4f}°N, {lon:.4f}°E"})
+    except Exception as e:
+        return Response({"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
