@@ -1,0 +1,6 @@
+fastapi
+uvicorn
+pandas
+httpx
+python-multipart
+python-dotenv

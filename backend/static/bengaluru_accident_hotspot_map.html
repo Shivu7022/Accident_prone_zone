@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Bengaluru Accident Hotspot Map</title>
+
+    <!-- Leaflet CSS -->
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+        }
+
+        .map-header {
+            padding: 16px 20px;
+            background: #1e3a8a;
+            color: white;
+            text-align: center;
+        }
+
+        .map-header h2 {
+            margin: 0 0 8px;
+            font-size: 22px;
+        }
+
+        .map-header p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .map-container {
+            padding: 15px;
+        }
+
+        .map-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .info-card {
+            flex: 1;
+            min-width: 140px;
+            background: white;
+            padding: 14px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .info-card h4 {
+            margin: 0 0 8px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .info-card p {
+            margin: 0;
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        #map {
+            width: 100%;
+            height: 650px;
+            border-radius: 10px;
+            border: 1px solid #dbe3ef;
+            background: #e5e7eb;
+        }
+
+        .legend {
+            background: white;
+            padding: 15px;
+            margin-top: 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+        }
+
+        .legend h4 {
+            margin: 0 0 12px;
+        }
+
+        .legend-item {
+            display: inline-flex;
+            align-items: center;
+            margin: 5px 18px 5px 0;
+            font-size: 13px;
+        }
+
+        .legend-color {
+            width: 13px;
+            height: 13px;
+            border-radius: 50%;
+            margin-right: 7px;
+        }
+
+        #status {
+            padding: 10px 15px;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .leaflet-popup-content {
+            line-height: 1.7;
+        }
+
+        @media (max-width: 600px) {
+            #map {
+                height: 500px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="map-header">
+        <h2>📍 Bengaluru Accident Hotspot Map</h2>
+        <p>Historical accident records associated with police-station locations</p>
+    </header>
+
+    <main class="map-container">
+
+        <section class="map-info">
+            <div class="info-card">
+                <h4>Police Stations Mapped</h4>
+                <p id="stationCount">0</p>
+            </div>
+
+            <div class="info-card">
+                <h4>Total Accidents</h4>
+                <p id="accidentCount">0</p>
+            </div>
+
+            <div class="info-card">
+                <h4>Map Status</h4>
+                <p id="mapStatus" style="font-size: 16px;">Loading...</p>
+            </div>
+        </section>
+
+        <div id="map"></div>
+
+        <div class="legend">
+            <h4>Accident Count Legend</h4>
+
+            <div class="legend-item">
+                <span class="legend-color" style="background:#22c55e;"></span>
+                Low
+            </div>
+
+            <div class="legend-item">
+                <span class="legend-color" style="background:#f59e0b;"></span>
+                Moderate
+            </div>
+
+            <div class="legend-item">
+                <span class="legend-color" style="background:#ef4444;"></span>
+                High
+            </div>
+
+            <div class="legend-item">
+                <span class="legend-color" style="background:#7f1d1d;"></span>
+                Very High
+            </div>
+        </div>
+
+        <div id="status">Connecting to the accident data API...</div>
+
+    </main>
+
+    <!-- Leaflet JavaScript -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+    <script>
+        // Initialize map centered on Bengaluru
+        const map = L.map("map").setView([12.9716, 77.5946], 11);
+
+        // Load OpenStreetMap tiles
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            attribution: '&copy; OpenStreetMap contributors',
+            maxZoom: 19
+        }).addTo(map);
+
+        // Marker colors based on accident count
+        function getColor(accidents, maxAccidents) {
+            const value = Number(accidents) || 0;
+
+            if (maxAccidents <= 0) {
+                return "#64748b";
+            }
+
+            const ratio = value / maxAccidents;
+
+            if (ratio >= 0.75) return "#7f1d1d";
+            if (ratio >= 0.50) return "#ef4444";
+            if (ratio >= 0.25) return "#f59e0b";
+
+            return "#22c55e";
+        }
+
+        function getCoordinates(record) {
+            const lat =
+                record.verified_latitude ??
+                record.latitude ??
+                record.lat;
+
+            const lon =
+                record.verified_longitude ??
+                record.longitude ??
+                record.lon ??
+                record.lng;
+
+            return {
+                lat: Number(lat),
+                lon: Number(lon)
+            };
+        }
+
+        function getStationName(record) {
+            return (
+                record.Station ??
+                record.station ??
+                record.station_name ??
+                record.Police_Station ??
+                record.name ??
+                "Unknown Station"
+            );
+        }
+
+        function getAccidentCount(record) {
+            return Number(
+                record.Total_Accidents ??
+                record.total_accidents ??
+                record.totalAccidents ??
+                record.total ??
+                record.accidents ??
+                0
+            );
+        }
+
+        function getRiskCategory(record) {
+            return (
+                record.Risk_Category ??
+                record.risk_category ??
+                record.risk_level ??
+                record.risk ??
+                "Not classified"
+            );
+        }
+
+        async function loadHotspots() {
+            const status = document.getElementById("status");
+            const mapStatus = document.getElementById("mapStatus");
+
+            try {
+                const response = await fetch("/api/hotspots");
+
+                if (!response.ok) {
+                    throw new Error("API returned status " + response.status);
+                }
+
+                const result = await response.json();
+
+                // Support either a direct array or an object containing an array
+                const records = Array.isArray(result)
+                    ? result
+                    : (
+                        result.hotspots ??
+                        result.data ??
+                        result.stations ??
+                        []
+                    );
+
+                if (!Array.isArray(records) || records.length === 0) {
+                    throw new Error(
+                        "No hotspot records found in the API response."
+                    );
+                }
+
+                // Keep only records with valid coordinates
+                const validRecords = records.filter(record => {
+                    const coords = getCoordinates(record);
+
+                    return (
+                        Number.isFinite(coords.lat) &&
+                        Number.isFinite(coords.lon) &&
+                        coords.lat >= -90 &&
+                        coords.lat <= 90 &&
+                        coords.lon >= -180 &&
+                        coords.lon <= 180
+                    );
+                });
+
+                if (validRecords.length === 0) {
+                    throw new Error(
+                        "No valid latitude and longitude values were found."
+                    );
+                }
+
+                const maxAccidents = Math.max(
+                    ...validRecords.map(getAccidentCount)
+                );
+
+                let totalAccidents = 0;
+                const bounds = [];
+
+                validRecords.forEach(record => {
+                    const coords = getCoordinates(record);
+                    const station = getStationName(record);
+                    const accidents = getAccidentCount(record);
+                    const risk = getRiskCategory(record);
+                    const color = getColor(accidents, maxAccidents);
+
+                    totalAccidents += accidents;
+
+                    const marker = L.circleMarker(
+                        [coords.lat, coords.lon],
+                        {
+                            radius: Math.max(
+                                6,
+                                Math.min(
+                                    18,
+                                    6 + (accidents / Math.max(maxAccidents, 1)) * 12
+                                )
+                            ),
+                            fillColor: color,
+                            color: "#ffffff",
+                            weight: 2,
+                            opacity: 1,
+                            fillOpacity: 0.85
+                        }
+                    ).addTo(map);
+
+                    marker.bindPopup(`
+                        <div>
+                            <h3>${escapeHtml(station)}</h3>
+                            <b>Total Accidents:</b> ${accidents.toLocaleString("en-IN")}<br>
+                            <b>Risk Category:</b> ${escapeHtml(String(risk))}<br>
+                            <b>Latitude:</b> ${coords.lat.toFixed(6)}<br>
+                            <b>Longitude:</b> ${coords.lon.toFixed(6)}
+                        </div>
+                    `);
+
+                    bounds.push([coords.lat, coords.lon]);
+                });
+
+                document.getElementById("stationCount").textContent =
+                    validRecords.length;
+
+                document.getElementById("accidentCount").textContent =
+                    totalAccidents.toLocaleString("en-IN");
+
+                mapStatus.textContent = "Loaded";
+
+                status.textContent =
+                    `Showing ${validRecords.length} station locations. ` +
+                    `${records.length - validRecords.length} records were skipped because of invalid coordinates.`;
+
+                if (bounds.length > 1) {
+                    map.fitBounds(bounds, { padding: [30, 30] });
+                } else if (bounds.length === 1) {
+                    map.setView(bounds[0], 14);
+                }
+
+            } catch (error) {
+                console.error("Hotspot map error:", error);
+
+                mapStatus.textContent = "Failed";
+
+                status.textContent =
+                    "Unable to load hotspot data: " + error.message;
+            }
+        }
+
+        function escapeHtml(value) {
+            return String(value).replace(/[&<>"']/g, char => ({
+                "&": "&amp;",
+                "<": "&lt;",
+                ">": "&gt;",
+                '"': "&quot;",
+                "'": "&#39;"
+            })[char]);
+        }
+
+        loadHotspots();
+    </script>
+
+</body>
+</html>

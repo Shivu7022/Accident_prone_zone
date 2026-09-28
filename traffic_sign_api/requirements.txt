@@ -1,0 +1,9 @@
+torch
+torchvision
+fastapi
+uvicorn
+pillow
+python-multipart
+opencv-python-headless
+ultralytics>=8.4,<9
+huggingface_hub>=0.30,<2

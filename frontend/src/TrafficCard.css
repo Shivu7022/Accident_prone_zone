@@ -1,0 +1,52 @@
+.traffic-card {
+  background: white;
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  margin: 0;
+}
+
+.traffic-card h2 {
+  margin: 0 0 12px;
+  color: #0f172a;
+  font-size: 16px;
+}
+
+.traffic-card p {
+  margin: 8px 0;
+  color: #334155;
+  font-size: 13px;
+}
+
+.traffic-card button {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px;
+  background: #f1f5f9;
+  color: #334155;
+  border: none;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.traffic-card button:hover {
+  background: #e2e8f0;
+}
+
+.congestion-status {
+  display: inline-block;
+  padding: 6px 12px;
+  border-radius: 20px;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.traffic-error {
+  color: #dc2626;
+  font-size: 13px;
+}

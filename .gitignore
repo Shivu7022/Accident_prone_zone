@@ -1,41 +1,17 @@
-# Virtual Environment
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+__pycache__/
+*.py[cod]
 .venv/
 venv/
-env/
-ENV/
-
-# Node / Frontend dependencies & build output
 node_modules/
-frontend/node_modules/
-frontend/dist/
-frontend/vite.config.js.timestamp-*.mjs
-
-# Python cache and temporary files
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-*.log
-
-# Jupyter Notebook Checkpoints
-.ipynb_checkpoints/
-
-# IDE and System Files
-.vscode/
-.idea/
-.DS_Store
-Thumbs.db
-
-# Database
-*.sqlite3
-backend/db.sqlite3
-
-# Zip and archive files
-*.zip
-
-# Large Data & Output Files (>50MB/100MB GitHub limit)
-data/osm/*.csv
-outputs/road_features/*.csv
-dataset/bengaluru_urban_roads.csv
-dataset/RDD2022-India.v1i.darknet/
-dataset/rdd2022_yolo/
+dist/
+*.pt
+*.pth
+*.onnx
+*.engine
+.roadsafe_training/
+runs/

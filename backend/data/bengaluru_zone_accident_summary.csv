@@ -1,0 +1,5 @@
+Zone,Total_Accidents,Fatal_Accidents,Non_Fatal_Accidents,Killed,Injured,Police_Stations,Avg_Accidents_Per_Station
+East,5775,1099,4676,945.0,3942.0,10,577.5
+North,8121,1538,6583,1335.0,6023.0,11,738.2727272727273
+South,6957,1176,5781,1014.0,5029.0,13,535.1538461538462
+West,6299,900,5399,778.0,4677.0,14,449.92857142857144

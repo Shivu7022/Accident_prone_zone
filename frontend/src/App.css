@@ -1,0 +1,259 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #f1f5f9;
+  color: #1e293b;
+}
+
+.dashboard {
+  max-width: 1400px;
+  margin: auto;
+  padding: 25px;
+}
+
+/* Header */
+.dashboard-header {
+  background: #1e3a8a;
+  color: white;
+  padding: 30px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+}
+
+.dashboard-header h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.dashboard-header p {
+  color: #dbeafe;
+  line-height: 1.6;
+}
+
+/* Statistics */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 25px;
+}
+
+.stat-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+.stat-card h3 {
+  font-size: 15px;
+  color: #64748b;
+  margin-bottom: 15px;
+}
+
+.stat-card p {
+  font-size: 28px;
+  font-weight: bold;
+  color: #1d4ed8;
+}
+
+/* Charts */
+.chart-card,
+.table-card,
+.signboard-card,
+.map-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  margin-bottom: 25px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+}
+
+.chart-card h2,
+.table-card h2,
+.signboard-card h2,
+.map-card h2 {
+  margin-bottom: 20px;
+  font-size: 21px;
+  color: #1e3a8a;
+}
+
+/* Map */
+.map-card p {
+  color: #64748b;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.hotspot-map {
+  width: 100%;
+  height: 600px;
+  border: none;
+  border-radius: 8px;
+}
+
+/* Table */
+.table-container {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+thead {
+  background: #1e3a8a;
+  color: white;
+}
+
+th,
+td {
+  padding: 14px;
+  border-bottom: 1px solid #e2e8f0;
+  white-space: nowrap;
+}
+
+tbody tr:hover {
+  background: #f8fafc;
+}
+
+.risk-badge {
+  display: inline-block;
+  padding: 6px 12px;
+  background: #dbeafe;
+  color: #1e40af;
+  border-radius: 20px;
+  font-size: 13px;
+}
+
+/* Traffic Sign Recognition */
+.signboard-card > p {
+  color: #64748b;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.signboard-card form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  align-items: center;
+}
+
+.signboard-card input[type="file"] {
+  padding: 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  max-width: 100%;
+}
+
+.signboard-card button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 13px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.signboard-card button:hover {
+  background: #1d4ed8;
+}
+
+.signboard-card button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.sign-result {
+  margin-top: 25px;
+  padding: 20px;
+  background: #eff6ff;
+  border-left: 5px solid #2563eb;
+  border-radius: 8px;
+}
+
+.sign-result h3 {
+  margin-bottom: 15px;
+  color: #1e3a8a;
+}
+
+.sign-result p {
+  margin: 10px 0;
+}
+
+/* Error */
+.error-message {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* Loading */
+.loading-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Footer */
+.dashboard-footer {
+  text-align: center;
+  padding: 25px;
+  color: #64748b;
+  line-height: 1.8;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard {
+    padding: 12px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 22px;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .chart-card,
+  .table-card,
+  .signboard-card,
+  .map-card {
+    padding: 15px;
+  }
+
+  .hotspot-map {
+    height: 450px;
+  }
+
+  .signboard-card form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .signboard-card button {
+    width: 100%;
+  }
+}

@@ -1,1 +1,0 @@
-# Bengaluru Safety Django Package
