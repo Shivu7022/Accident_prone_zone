@@ -1,52 +1,123 @@
+/* Traffic Card - Dark theme matching the app */
 .traffic-card {
-  background: white;
-  padding: 16px;
-  border-radius: 12px;
-  border: 1px solid #e2e8f0;
+  background: rgba(15, 23, 42, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 14px;
+  padding: 14px 16px;
   margin: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.45);
 }
 
 .traffic-card h2 {
-  margin: 0 0 12px;
-  color: #0f172a;
-  font-size: 16px;
+  margin: 0 0 10px;
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .traffic-card p {
-  margin: 8px 0;
-  color: #334155;
-  font-size: 13px;
+  margin: 6px 0;
+  color: #cbd5e1;
+  font-size: 12px;
+  line-height: 1.5;
 }
 
 .traffic-card button {
   width: 100%;
-  margin-top: 12px;
-  padding: 10px;
-  background: #f1f5f9;
-  color: #334155;
-  border: none;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
 }
 
 .traffic-card button:hover {
-  background: #e2e8f0;
+  background: rgba(255, 255, 255, 0.15);
+  color: #f8fafc;
 }
 
 .congestion-status {
   display: inline-block;
-  padding: 6px 12px;
+  padding: 4px 10px;
   border-radius: 20px;
   color: white;
-  font-size: 12px;
-  font-weight: 600;
-  margin-bottom: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: 0.03em;
 }
 
 .traffic-error {
-  color: #dc2626;
-  font-size: 13px;
+  color: #f87171;
+  font-size: 12px;
+  text-align: center;
+  padding: 6px 0;
+}
+
+/* Live Indicator */
+.traffic-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.live-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #10b981;
+  background: rgba(16, 185, 129, 0.1);
+  padding: 4px 8px;
+  border-radius: 12px;
+}
+
+.live-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulseLive 2s infinite;
+}
+
+@keyframes pulseLive {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+.live-text {
+  letter-spacing: 0.05em;
+}
+
+/* Timestamp with age */
+.traffic-timestamp {
+  font-size: 0.7rem;
+  color: #64748b;
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.timestamp-age {
+  color: #94a3b8;
+  font-weight: 600;
+  margin-left: 4px;
 }

@@ -1,8 +1,23 @@
+.trip-summary-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  overflow-y: auto;
+  background: rgba(9, 13, 22, 0.72);
+}
+
 .trip-summary {
   background: #f8fafc;
+  width: min(100%, 520px);
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  box-sizing: border-box;
   border-radius: 12px;
   padding: 20px;
-  margin-top: 20px;
+  margin: 0;
   border: 2px solid #e2e8f0;
 }
 

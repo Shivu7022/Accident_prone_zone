@@ -1,4 +1,5 @@
 import base64
+import time
 from pathlib import Path
 
 import cv2
@@ -74,9 +75,11 @@ def home():
 # ============================================================
 
 @app.get("/health")
+@app.get("/ready")
+@app.get("/live")
 def health():
     return {
-        "status": "running",
+        "status": "running" if model is not None else "degraded",
         "model_loaded": model is not None,
         "model_name": MODEL_PATH.name if model is not None else None,
     }
@@ -125,15 +128,23 @@ async def predict_road_damage(
     # DECODE IMAGE
     # --------------------------------------------------------
 
+    # OPTIMIZATION: Use IMREAD_REDUCED_COLOR_2 for faster decoding if image is large
     image_array = np.frombuffer(
         image_bytes,
         dtype=np.uint8,
     )
 
-    image = cv2.imdecode(
-        image_array,
-        cv2.IMREAD_COLOR,
-    )
+    # Check image size and use optimized decoding
+    if len(image_bytes) > 500 * 1024:  # If larger than 500KB
+        image = cv2.imdecode(
+            image_array,
+            cv2.IMREAD_REDUCED_COLOR_2,
+        )
+    else:
+        image = cv2.imdecode(
+            image_array,
+            cv2.IMREAD_COLOR,
+        )
 
     if image is None:
         raise HTTPException(
@@ -146,13 +157,14 @@ async def predict_road_damage(
     # --------------------------------------------------------
 
     try:
-
+        t0 = time.perf_counter()
         results = model.predict(
             source=image,
             conf=0.25,
             imgsz=640,
             verbose=False,
         )
+        inference_ms = round((time.perf_counter() - t0) * 1000, 2)
 
         result = results[0]
 
@@ -206,9 +218,11 @@ async def predict_road_damage(
 
         annotated_image = result.plot()
 
+        # OPTIMIZATION: Use JPEG quality 85 instead of default 95 for smaller payload
         success, buffer = cv2.imencode(
             ".jpg",
             annotated_image,
+            [int(cv2.IMWRITE_JPEG_QUALITY), 85]
         )
 
         if not success:
@@ -233,6 +247,7 @@ async def predict_road_damage(
             "filename": file.filename,
             "total_detections": len(detections),
             "detections": detections,
+            "inference_ms": inference_ms,
             "annotated_image": (
                 "data:image/jpeg;base64,"
                 + image_base64

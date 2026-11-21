@@ -1,0 +1,52 @@
+/* Navigation Controls - positioned below the search panel height */
+.nav-floating-controls {
+  position: absolute;
+  top: 160px; /* Pushed below the search panel (~140px tall) */
+  right: 16px;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.nav-control-btn {
+  width: 44px;
+  height: 44px;
+  background: rgba(15, 23, 42, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-control-btn:hover {
+  background: rgba(30, 41, 59, 0.95);
+  color: #f8fafc;
+  transform: scale(1.05);
+}
+
+.nav-control-btn.is-active {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+}
+
+.nav-control-btn.hotspot-btn.is-active {
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  box-shadow: 0 4px 14px rgba(220, 38, 38, 0.4);
+}
+
+.compass-needle {
+  font-size: 16px;
+  font-weight: 800;
+  color: #ef4444;
+  transition: transform 0.2s ease-out;
+}

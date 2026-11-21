@@ -21,6 +21,20 @@ GEOCODE_CACHE = {}
 GEOCODE_LOCK = asyncio.Lock()
 GEOCODE_LAST_REQUEST = 0.0
 
+# Karnataka geographic bounds (for location search restriction)
+KARNATAKA_MIN_LAT = 11.5
+KARNATAKA_MAX_LAT = 18.5
+KARNATAKA_MIN_LON = 74.0
+KARNATAKA_MAX_LON = 78.6
+
+def is_in_karnataka(lat: float, lon: float) -> bool:
+    """Return True if the coordinates fall within Karnataka."""
+    return (
+        KARNATAKA_MIN_LAT <= lat <= KARNATAKA_MAX_LAT
+        and KARNATAKA_MIN_LON <= lon <= KARNATAKA_MAX_LON
+    )
+
+
 TOMTOM_TRAFFIC_URL = (
     "https://api.tomtom.com/traffic/services/4/flowSegmentData/"
     "absolute/10/json"
@@ -46,12 +60,16 @@ MAP_FILE = STATIC_DIR / "bengaluru_accident_hotspot_map.html"
 URBAN_ROADS_FILE = DATA_DIR / "bengaluru_urban_roads.csv"
 RURAL_ROADS_FILE = DATA_DIR / "bengaluru_rural_roads.csv"
 
-SIGNBOARD_API_URL = "http://127.0.0.1:8000/api/signboard/predict/"
-SIGNBOARD_HEALTH_URL = "http://127.0.0.1:8000/"
-SIGNBOARD_DETECT_URL = "http://127.0.0.1:8000/api/signboard/detect/"
+TRAFFIC_SIGN_BASE = os.getenv("TRAFFIC_SIGN_API_URL", "http://127.0.0.1:8000").rstrip("/")
+ROAD_DAMAGE_BASE = os.getenv("ROAD_DAMAGE_API_URL", "http://127.0.0.1:8002").rstrip("/")
+OSRM_BASE_URL = os.getenv("OSRM_URL", "https://router.project-osrm.org").rstrip("/")
 
-ROAD_DAMAGE_API_URL = "http://127.0.0.1:8002/predict"
-ROAD_DAMAGE_HEALTH_URL = "http://127.0.0.1:8002/health"
+SIGNBOARD_API_URL = f"{TRAFFIC_SIGN_BASE}/api/signboard/predict/"
+SIGNBOARD_HEALTH_URL = f"{TRAFFIC_SIGN_BASE}/"
+SIGNBOARD_DETECT_URL = f"{TRAFFIC_SIGN_BASE}/api/signboard/detect/"
+
+ROAD_DAMAGE_API_URL = f"{ROAD_DAMAGE_BASE}/predict"
+ROAD_DAMAGE_HEALTH_URL = f"{ROAD_DAMAGE_BASE}/health"
 
 
 DATA_DIR.mkdir(parents=True, exist_ok=True)
@@ -64,10 +82,10 @@ STATIC_DIR.mkdir(parents=True, exist_ok=True)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ],
+    allow_origins=["*"],
+
+
+
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -214,13 +232,14 @@ async def geocode_location(query: str):
         if cache_key in GEOCODE_CACHE:
             return {"locations": GEOCODE_CACHE[cache_key]}
 
-        wait_seconds = 1 - (time.monotonic() - GEOCODE_LAST_REQUEST)
+        # IMPROVEMENT: Increased rate limit from 1s to 1.5s to avoid rate limiting
+        wait_seconds = 1.5 - (time.monotonic() - GEOCODE_LAST_REQUEST)
         if wait_seconds > 0:
             await asyncio.sleep(wait_seconds)
 
         try:
             async with httpx.AsyncClient(
-                timeout=20,
+                timeout=30,  # Increased timeout from 20s to 30s
                 headers={
                     "User-Agent": "RoadSafeNavigator/1.0 (location search)",
                 },
@@ -230,12 +249,38 @@ async def geocode_location(query: str):
                     params={
                         "q": normalized_query,
                         "format": "jsonv2",
-                        "limit": 5,
+                        "limit": 10,
                         "addressdetails": 1,
+                        "countrycodes": "in",
+                        "viewbox": f"{KARNATAKA_MIN_LON},{KARNATAKA_MIN_LAT},{KARNATAKA_MAX_LON},{KARNATAKA_MAX_LAT}",
+                        "bounded": 1,
                     },
                 )
                 response.raise_for_status()
                 results = response.json()
+        except httpx.TimeoutException as error:
+            # IMPROVEMENT: Better error message for timeout
+            raise HTTPException(
+                status_code=504,
+                detail="Location search timed out. Please try again.",
+            ) from error
+        except httpx.HTTPStatusError as error:
+            # IMPROVEMENT: Handle 429 (rate limit) and 503 (service unavailable) specifically
+            if error.response.status_code == 429:
+                raise HTTPException(
+                    status_code=429,
+                    detail="Location search is busy. Please wait a moment and try again.",
+                ) from error
+            elif error.response.status_code == 503:
+                raise HTTPException(
+                    status_code=503,
+                    detail="Location search service is temporarily unavailable. Please try again later.",
+                ) from error
+            else:
+                raise HTTPException(
+                    status_code=502,
+                    detail=f"Location search service error: {error}",
+                ) from error
         except httpx.HTTPError as error:
             raise HTTPException(
                 status_code=502,
@@ -244,6 +289,7 @@ async def geocode_location(query: str):
         finally:
             GEOCODE_LAST_REQUEST = time.monotonic()
 
+        # Post-filter: keep only results within Karnataka's bounds
         locations = [
             {
                 "lat": float(item["lat"]),
@@ -252,8 +298,21 @@ async def geocode_location(query: str):
                 "type": item.get("type"),
             }
             for item in results
-            if item.get("lat") and item.get("lon") and item.get("display_name")
-        ]
+            if (
+                item.get("lat") and item.get("lon") and item.get("display_name")
+                and is_in_karnataka(float(item["lat"]), float(item["lon"]))
+            )
+        ][:5]
+
+        if not locations:
+            raise HTTPException(
+                status_code=404,
+                detail=(
+                    f"No Karnataka locations found for '{normalized_query}'. "
+                    "Please search for a place within Karnataka, India."
+                ),
+            )
+
         GEOCODE_CACHE[cache_key] = locations
         return {"locations": locations}
 
@@ -583,6 +642,41 @@ async def get_traffic(lat: float = 12.9716, lon: float = 77.5946):
             status_code=502,
             detail="Unable to connect to TomTom",
         )
+
+
+@app.get("/api/routes")
+async def get_routes(start_lon: float, start_lat: float, dest_lon: float, dest_lat: float, alternatives: bool = True):
+    # KARNATAKA RESTRICTION: Validate both start and destination are within Karnataka
+    if not is_in_karnataka(start_lat, start_lon):
+        raise HTTPException(
+            status_code=400,
+            detail="Start location is outside Karnataka. Both locations must be within Karnataka, India."
+        )
+
+    if not is_in_karnataka(dest_lat, dest_lon):
+        raise HTTPException(
+            status_code=400,
+            detail="Destination is outside Karnataka. Both locations must be within Karnataka, India."
+        )
+
+    url = f"{OSRM_BASE_URL}/route/v1/driving/{start_lon},{start_lat};{dest_lon},{dest_lat}"
+    params = {
+        "overview": "full",
+        "geometries": "geojson",
+        "steps": "true",
+        "alternatives": "true" if alternatives else "false",
+    }
+    try:
+        async with httpx.AsyncClient(timeout=20.0) as client:
+            res = await client.get(url, params=params)
+            res.raise_for_status()
+            return res.json()
+    except httpx.HTTPError as err:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Routing service error: {err}"
+        ) from err
+
 
 # ============================================
 # ROAD NETWORK API - OSM DATA

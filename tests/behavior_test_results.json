@@ -1,0 +1,144 @@
+{
+  "timestamp": "2026-10-03 13:30:07",
+  "server_health": {
+    "main_backend": true,
+    "traffic_sign_api": true,
+    "road_damage_api": true
+  },
+  "tests": [
+    {
+      "function": "Geocoding",
+      "status": "PASS",
+      "error": null,
+      "execution_time_ms": 43.1,
+      "details": {
+        "num_locations": 5,
+        "first_location": {
+          "lat": 12.9755264,
+          "lon": 77.6067902,
+          "display_name": "Mahatma Gandhi Road, Shanthala Nagar, Ashokanagar, Bengaluru Central City Corporation, Bengaluru, Bangalore North, Bengaluru Urban, Karnataka, 560001, India"
+        }
+      }
+    },
+    {
+      "function": "Accident Hotspot Retrieval",
+      "status": "PASS",
+      "error": null,
+      "execution_time_ms": 189.26,
+      "details": {
+        "num_hotspots": 48,
+        "sample_hotspot": {
+          "Zone": "East",
+          "Station": "Airport",
+          "latitude": 12.9598179,
+          "longitude": 77.6502474,
+          "geocoded_address": "SBI ATM, HAL Old Airport Road, NR Colony, Jeevan Bhima Nagar, Kodihalli, Bengaluru Central City Corporation, Bengaluru, Bangalore East, Bengaluru Urban, Karnataka, 560008, India",
+          "google_maps_link": "https://www.google.com/maps/search/?api=1&query=12.9598179,77.6502474",
+          "verified_latitude": null,
+          "verified_longitude": null,
+          "verification_notes": null,
+          "verification_status": "Pending",
+          "nearest_road_id": "R00004782",
+          "nearest_road_name": "HAL Old Airport Road",
+          "nearest_road_type": "primary",
+          "nearest_road_length_m": 74.27774382665159,
+          "distance_to_road_m": 87.01349938904049,
+          "Total_Accidents": 676,
+          "Fatal_Accidents": 150,
+          "Non_Fatal_Accidents": 526,
+          "Killed": 131.0,
+          "Injured": 434.0,
+          "Years_Recorded": 7,
+          "Avg_Annual_Accidents": 96.57142857142856,
+          "Avg_Annual_Fatal_Accidents": 21.428571428571427,
+          "Avg_Annual_Non_Fatal_Accidents": 75.14285714285714,
+          "Road_Length_km": 0.0742777438266515,
+          "Distance_to_Road_km": 0.0870134993890404,
+          "Road_Type": "primary",
+          "Accident_History_Category": "High",
+          "Accident_Rate_Category": "High",
+          "Fatal_Accident_Rate": 0.2218934911242603,
+          "Non_Fatal_Accident_Rate": 0.7781065088757396
+        }
+      }
+    },
+    {
+      "function": "Road Damage Detection",
+      "status": "PASS",
+      "error": null,
+      "execution_time_ms": 5403.53,
+      "details": {
+        "total_detections": 0,
+        "has_annotated_image": true
+      }
+    },
+    {
+      "function": "Traffic Sign Detection",
+      "status": "PASS",
+      "error": null,
+      "execution_time_ms": 3094.86,
+      "details": {
+        "total_detections": 0,
+        "has_annotated_image": true
+      }
+    },
+    {
+      "function": "Traffic Sign Classification",
+      "status": "PASS",
+      "error": null,
+      "execution_time_ms": 658.92,
+      "details": {
+        "predicted_class": 2,
+        "sign_name": "Speed limit (50 km/h)",
+        "confidence": 9.76
+      }
+    },
+    {
+      "function": "Traffic Data Retrieval",
+      "status": "PASS",
+      "error": null,
+      "execution_time_ms": 4190.83,
+      "details": {
+        "response_keys": [
+          "location",
+          "current_speed_kmh",
+          "free_flow_speed_kmh",
+          "current_travel_time_seconds",
+          "free_flow_travel_time_seconds",
+          "confidence"
+        ],
+        "has_traffic_data": true
+      }
+    },
+    {
+      "function": "Weather Data Retrieval",
+      "status": "PASS",
+      "error": null,
+      "execution_time_ms": 5095.84,
+      "details": {
+        "response_keys": [
+          "location",
+          "latitude",
+          "longitude",
+          "time",
+          "temperature",
+          "feels_like",
+          "humidity",
+          "precipitation",
+          "rain",
+          "wind_speed",
+          "weather_code",
+          "weather_condition",
+          "units"
+        ],
+        "has_weather_data": true
+      }
+    }
+  ],
+  "summary": {
+    "total": 7,
+    "passed": 7,
+    "failed": 0,
+    "pass_rate": 100.0
+  }
+}

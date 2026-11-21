@@ -117,7 +117,9 @@ export default function TripSummary({ tripData, startLocation, destination, rout
       <button
         type="button"
         className="start-new-trip-button"
-        onClick={onStartNewTrip}
+        onClick={() => {
+          onStartNewTrip();
+        }}
       >
         🚀 Start New Trip
       </button>

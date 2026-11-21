@@ -220,31 +220,49 @@ export default function CameraCapture({ tripStatus, onRoadDamageDetection, onTra
     }
     detectionInProgressRef.current = true;
 
-    const canvas = canvasRef.current;
-    canvas.width = videoRef.current.videoWidth;
-    canvas.height = videoRef.current.videoHeight;
+    // OPTIMIZATION: Reduce image size from 640 to 480px for faster transmission
+    // OPTIMIZATION: Reduce JPEG quality from 0.75 to 0.70 for smaller payload
+    const maxDim = 480;
+    const origWidth = videoRef.current.videoWidth;
+    const origHeight = videoRef.current.videoHeight;
+    const scale = Math.min(1, maxDim / Math.max(origWidth, origHeight));
+    canvas.width = Math.round(origWidth * scale);
+    canvas.height = Math.round(origHeight * scale);
 
     const context = canvas.getContext("2d");
     context.drawImage(videoRef.current, 0, 0, canvas.width, canvas.height);
 
-    const imageData = canvas.toDataURL("image/jpeg", 0.85);
+    const imageData = canvas.toDataURL("image/jpeg", 0.70);
 
     try {
       const blob = await dataURLToBlob(imageData);
-      const requestPrediction = async (url) => {
-        const formData = new FormData();
-        formData.append("file", blob, "auto_capture.jpg");
-        const response = await fetch(url, { method: "POST", body: formData });
-        const data = await response.json().catch(() => ({}));
-        if (!response.ok) {
-          throw new Error(data.detail || data.message || `Request failed (${response.status})`);
+      const requestPrediction = async (url, timeoutMs = 15000) => {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+        try {
+          const formData = new FormData();
+          formData.append("file", blob, "auto_capture.jpg");
+          const response = await fetch(url, { 
+            method: "POST", 
+            body: formData,
+            signal: controller.signal 
+          });
+          clearTimeout(timeoutId);
+          const data = await response.json().catch(() => ({}));
+          if (!response.ok) {
+            throw new Error(data.detail || data.message || `Request failed (${response.status})`);
+          }
+          return data;
+        } catch (err) {
+          clearTimeout(timeoutId);
+          throw err;
         }
-        return data;
       };
 
+      // OPTIMIZATION: Use shorter timeout (15s instead of default)
       const [roadResult, signResult] = await Promise.allSettled([
-        requestPrediction(API_URL),
-        requestPrediction(TRAFFIC_SIGN_API_URL),
+        requestPrediction(API_URL, 15000),
+        requestPrediction(TRAFFIC_SIGN_API_URL, 10000),
       ]);
       const summaries = [];
 
@@ -310,12 +328,13 @@ export default function CameraCapture({ tripStatus, onRoadDamageDetection, onTra
   };
 
   // Periodic detection during trip
+  // OPTIMIZATION: Increased interval from 10s to 12s to reduce server load and prevent overlapping requests
   useEffect(() => {
     if (cameraActive && autoMode && tripStatus === "in_progress") {
       performAutoDetection();
       detectionIntervalRef.current = setInterval(() => {
         performAutoDetection();
-      }, 10000);
+      }, 12000);
     }
 
     return () => {

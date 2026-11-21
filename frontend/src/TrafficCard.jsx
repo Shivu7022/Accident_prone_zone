@@ -1,7 +1,11 @@
 import { useCallback, useEffect, useState } from "react";
 import "./TrafficCard.css";
 
-const API_URL = "http://127.0.0.1:8001/api/traffic";
+const getApiUrl = () => {
+  const host = typeof window !== "undefined" ? window.location.hostname : "127.0.0.1";
+  const apiHost = host === "localhost" ? "127.0.0.1" : host;
+  return `http://${apiHost}:8001/api/traffic`;
+};
 
 export default function TrafficCard({ location, locationName, onTrafficUpdate }) {
   const hasLocation =
@@ -13,6 +17,7 @@ export default function TrafficCard({ location, locationName, onTrafficUpdate })
     locationKey: null,
     traffic: null,
     error: "",
+    lastUpdated: null,
   });
   const traffic = trafficResult.locationKey === locationKey
     ? trafficResult.traffic
@@ -20,30 +25,58 @@ export default function TrafficCard({ location, locationName, onTrafficUpdate })
   const error = trafficResult.locationKey === locationKey
     ? trafficResult.error
     : "";
+  const lastUpdated = trafficResult.locationKey === locationKey
+    ? trafficResult.lastUpdated
+    : null;
 
   const fetchTraffic = useCallback(async () => {
     if (!hasLocation) return;
 
     try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 25000);
+
       const response = await fetch(
-        `${API_URL}?lat=${latitude}&lon=${longitude}`
+        `${getApiUrl()}?lat=${latitude}&lon=${longitude}`,
+        { signal: controller.signal }
       );
 
+      clearTimeout(timeoutId);
+
       if (!response.ok) {
-        throw new Error("Failed to fetch traffic data");
+        // IMPROVEMENT: Better error messages based on status code
+        if (response.status === 500) {
+          throw new Error("Traffic service is temporarily unavailable");
+        } else if (response.status === 503) {
+          throw new Error("Traffic service is currently down");
+        } else {
+          throw new Error("Failed to fetch traffic data");
+        }
       }
 
       const data = await response.json();
-      setTrafficResult({ locationKey, traffic: data, error: "" });
+      setTrafficResult({ locationKey, traffic: data, error: "", lastUpdated: new Date() });
       onTrafficUpdate?.(data, locationKey);
     } catch (err) {
-      setTrafficResult((previous) => ({
-        locationKey,
-        traffic: previous.locationKey === locationKey
-          ? previous.traffic
-          : null,
-        error: err.message,
-      }));
+      if (err.name === 'AbortError') {
+        setTrafficResult((previous) => ({
+          locationKey,
+          traffic: previous.locationKey === locationKey
+            ? previous.traffic
+            : null,
+          error: "Request timed out - please try again",
+          lastUpdated: previous.locationKey === locationKey ? previous.lastUpdated : null,
+        }));
+      } else {
+        setTrafficResult((previous) => ({
+          locationKey,
+          traffic: previous.locationKey === locationKey
+            ? previous.traffic
+            : null,
+          error: err.message || "Unable to load traffic data",
+          lastUpdated: previous.locationKey === locationKey ? previous.lastUpdated : null,
+        }));
+      }
     }
   }, [hasLocation, latitude, longitude, locationKey, onTrafficUpdate]);
 
@@ -52,7 +85,8 @@ export default function TrafficCard({ location, locationName, onTrafficUpdate })
 
     fetchTraffic();
 
-    const interval = setInterval(fetchTraffic, 60000);
+    // IMPROVEMENT: Reduce interval to 30 seconds for more frequent updates
+    const interval = setInterval(fetchTraffic, 30000);
 
     return () => clearInterval(interval);
   }, [fetchTraffic, hasLocation, onTrafficUpdate]);
@@ -95,7 +129,16 @@ export default function TrafficCard({ location, locationName, onTrafficUpdate })
 
   return (
     <div className="traffic-card">
-      <h2>🚦 Live Traffic{locationName ? ` - ${locationName}` : ""}</h2>
+      <div className="traffic-header">
+        <h2>🚦 Live Traffic{locationName ? ` - ${locationName}` : ""}</h2>
+        {/* IMPROVEMENT: Add live indicator pulsing dot */}
+        {traffic && !error && (
+          <div className="live-indicator">
+            <span className="live-dot"></span>
+            <span className="live-text">LIVE</span>
+          </div>
+        )}
+      </div>
 
       {error && <p className="traffic-error">{error}</p>}
 
@@ -137,6 +180,16 @@ export default function TrafficCard({ location, locationName, onTrafficUpdate })
             {traffic.confidence ?? "N/A"}
           </p>
         </>
+      )}
+
+      {/* IMPROVEMENT: Show last updated timestamp with age */}
+      {lastUpdated && (
+        <p className="traffic-timestamp">
+          Last updated: {lastUpdated.toLocaleTimeString()}
+          <span className="timestamp-age">
+            ({Math.round((Date.now() - lastUpdated) / 1000)}s ago)
+          </span>
+        </p>
       )}
 
       <button onClick={fetchTraffic}>Refresh Traffic</button>

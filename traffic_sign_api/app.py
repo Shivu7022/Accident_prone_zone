@@ -3,6 +3,7 @@ import base64
 import os
 import json
 import io
+import time
 from pathlib import Path
 
 import cv2
@@ -64,9 +65,13 @@ app = FastAPI(
 
 
 @app.get("/")
+@app.get("/health")
+@app.get("/ready")
+@app.get("/live")
 def home():
     return {
         "message": "Traffic Sign Recognition API is running",
+        "status": "running" if (model is not None or detector is not None) else "degraded",
         "device": str(device),
         "classifier_loaded": model is not None,
         "detector_loaded": detector is not None,
@@ -104,6 +109,7 @@ async def detect_sign_regions(file: UploadFile = File(...)):
         ) from error
 
     try:
+        t0 = time.perf_counter()
         result = detector.predict(
             source=image,
             conf=0.25,
@@ -111,6 +117,7 @@ async def detect_sign_regions(file: UploadFile = File(...)):
             device="cpu",
             verbose=False,
         )[0]
+        inference_ms = round((time.perf_counter() - t0) * 1000, 2)
 
         detections = []
         if result.boxes is not None:
@@ -146,6 +153,7 @@ async def detect_sign_regions(file: UploadFile = File(...)):
             "class_scope": "traffic_sign_region_only",
             "total_detections": len(detections),
             "detections": detections,
+            "inference_ms": inference_ms,
             "annotated_image": "data:image/jpeg;base64,"
             + base64.b64encode(buffer.tobytes()).decode("ascii"),
         }
@@ -190,6 +198,7 @@ async def predict_sign(file: UploadFile = File(...)):
             detail="Invalid image file."
         )
 
+    t0 = time.perf_counter()
     image_tensor = transform(image).unsqueeze(0).to(device)
 
     with torch.no_grad():
@@ -197,12 +206,14 @@ async def predict_sign(file: UploadFile = File(...)):
         probabilities = torch.softmax(outputs, dim=1)
         confidence, predicted = torch.max(probabilities, dim=1)
 
+    inference_ms = round((time.perf_counter() - t0) * 1000, 2)
     class_id = int(predicted.item())
 
     return {
         "class_id": class_id,
         "sign_name": class_names[class_id],
-        "confidence": round(float(confidence.item()) * 100, 2)
+        "confidence": round(float(confidence.item()) * 100, 2),
+        "inference_ms": inference_ms
     }
 
 if __name__ == "__main__":
